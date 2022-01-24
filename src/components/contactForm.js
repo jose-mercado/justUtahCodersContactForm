@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import moment from 'moment'
 import axios from "axios";
 
 const Card = styled.form
@@ -15,7 +14,7 @@ const Card = styled.form
   box-shadow: 14px 14px 20px #cbced1, -14px -14px 20px white;
   `;
 
-export default function ContactForm(callback, validate) {
+export default function ContactForm() {
   const [agree, setAgree] = useState(false);
   const [contactFormValues, setContactFormValues] = useState({
     name: "", 
@@ -54,7 +53,13 @@ export default function ContactForm(callback, validate) {
       contactFormValues
     })
     .then((response) => {
-      console.log(response);
+      console.log(response, "success!!!");
+      setContactFormValues({
+        name: "", 
+        email: "", 
+        birthDate:  "", 
+        checkbox: false
+      })
     }, (error) => {
       console.log(error);
     });;
@@ -64,7 +69,7 @@ const resetForm = () => {
   setContactFormValues({
     name: "", 
     email: "", 
-    birthDate:  moment().format('DD MMM, YYYY'), 
+    birthDate:  "", 
     checkbox: false
   })
 }
@@ -123,7 +128,7 @@ const isEnabled = contactFormValues.email.length > 0 && contactFormValues.name.l
           </label>
         </div>
     <button onClick={resetForm} className="button" type="reset">Clear</button>
-    <button disabled={!isEnabled} className="button" type="submit">Submit</button>
+    <button onClick={resetForm} disabled={!isEnabled} className="button" type="submit">Submit</button>
     </Card>
   );
 }
